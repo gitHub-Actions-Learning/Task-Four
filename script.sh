@@ -18,6 +18,9 @@ echo $ChanagedDirs
 # 1- create pipeline script and call all the scripts in it then call it inside terraform.yml
 #  if [[ -f pipeline.sh ]] chmod and run
 
+git add .
+git commit -m "Update $module"
+git push origin test
 
 # 2- add the whole pipeline in terraform.yml in loop
 for dir in $ChanagedDirs
@@ -42,9 +45,6 @@ echo $latestTagVersion
 newTagName=$module-v$latestTagVersion #vpc-v6
 echo $newTagName
 
-git add .
-git commit -m "Update $module"
-git push origin test
 git tag -a $newTagName -m "Upload $newTagName" #vpc-v6 #tag types ==> light / annotate ==> full info
 git push origin $newTagName
 
