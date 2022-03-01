@@ -43,10 +43,10 @@ newTagName=$module-v$latestTagVersion #vpc-v6
 echo $newTagName
 
 git add .
-git tag -a $newTagName -m "Upload $newTagName" #vpc-v6 #tag types ==> light / annotate ==> full info
-git push origin $newTagName
 git commit -m "Update $module"
 git push origin test
+git tag -a $newTagName -m "Upload $newTagName" #vpc-v6 #tag types ==> light / annotate ==> full info
+git push origin $newTagName
 
 done 
 #more than on module vpc/s3 ==> 
