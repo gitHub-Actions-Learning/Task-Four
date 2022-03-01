@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-ChnagedDirs=$(git diff --name-only HEAD | awk -F'/' '{print $1"/"$2"/"$3;}' | uniq) #array of dirs
+ChanagedDirs=$(git diff --name-only HEAD | awk -F'/' '{print $1"/"$2"/"$3;}' | uniq) #array of dirs
 echo $ChanagedDirs
 
 # for eachDir in $ChanagedDirs
@@ -20,8 +20,15 @@ echo $ChanagedDirs
 
 
 # 2- add the whole pipeline in terraform.yml in loop
+for dir in $ChanagedDirs
+do
 
-module=$(git diff --name-only HEAD | awk -F'/' '{print $2;}' | uniq) #get module name --> VPC
+#init 
+#plan
+#scan
+#apply
+
+module=$(echo $dir | awk -F'/' '{print $2;}') #get module name --> VPC
 echo $module
                            #VPC-v* 1 2 3 4 5
 latestTag=$(git describe --tags --match "$module-v*" --abbrev=0 `git rev-list --tags --max-count=1`)
@@ -36,11 +43,12 @@ newTagName=$module-v$latestTagVersion #vpc-v6
 echo $newTagName
 
 git add .
-git commit -m "Updateing VPC and S3"
-git tag -a $newTagName -m "uploading $newTagName" #vpc-v6 #tag types ==> light / annotate ==> full info
+git tag -a $newTagName -m "Upload $newTagName" #vpc-v6 #tag types ==> light / annotate ==> full info
 git push origin $newTagName
+git commit -m "Update $module"
 git push origin test
 
+done 
 #more than on module vpc/s3 ==> 
 # 1- will create 2 tags for each module with new version
 # 2- will need to cd for each dir have chnages and run the whole pipeline ==> 
