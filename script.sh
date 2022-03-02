@@ -50,6 +50,7 @@ then
     git push origin test
 fi
 
+git add .
 git tag -a $newTagName -m "Upload $newTagName" #vpc-v6 #tag types ==> light / annotate ==> full info
 git push origin $newTagName
 
