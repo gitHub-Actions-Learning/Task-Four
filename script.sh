@@ -62,7 +62,7 @@ else
     continue
 fi
 
-git add .
+# git add .
 git tag -a $newTagName -m "Upload $newTagName" #vpc-v6 #tag types ==> light / annotate ==> full info
 git push origin $newTagName
 done 
