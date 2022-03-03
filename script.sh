@@ -31,6 +31,11 @@ set -e
 
 ChanagedDirs=$(git diff --name-only HEAD | awk -F'/' '{print $1"/"$2"/"$3;}' | uniq) #array of dirs
 echo $ChanagedDirs
+
+git add .
+git commit -m "Update $module"
+git push origin test
+
 for dir in $ChanagedDirs
 do
 #init 
@@ -52,21 +57,16 @@ echo $latestTagVersion
 newTagName=$module-v$latestTagVersion #vpc-v6
 echo $newTagName
 
-changesCommited=$(git diff HEAD)
-if [ "$changesCommited" != " " ]
-then
-    git add .
-    git commit -m "Update $module"
-    git push origin test
-else
-    continue
-fi
-
 # git add .
 git tag -a $newTagName -m "Upload $newTagName" #vpc-v6 #tag types ==> light / annotate ==> full info
 git push origin $newTagName
 done 
 
+# changesCommited=$(git diff HEAD)
+# if [ "$changesCommited" != " " ]
+# then
+
+# fi
 #more than on module vpc/s3 ==> 
 # 1- will create 2 tags for each module with new version
 # 2- will need to cd for each dir have chnages and run the whole pipeline ==> 
